@@ -1,7 +1,7 @@
 <html>
   <body>
       <h1>Functional Programming Practice</h1>
-      <p> Check the source for available functions and use the console to call each function to view the results </p>
+      <p> Check the source for available functions.  Use the console to utilize the functions and view the results. </p>
     <pre>
       <script>
         
@@ -9,36 +9,30 @@
         function log(arg) {
           document.writeln(arg);
         }
-        
     /** add */
         function add(a, b) {
           return a + b;
-        }
-        
+        } 
     /** subtract second */
         function sub(a, b) {
           return a - b;
         }
-
     /** multiply */
         function mul(a, b) {
           return a * b;
         }
-
     /** returns a function that returns the value of the argument passed */
         function identityf(x) {
           return function () {
             return x;
           }
         }
-
     /** returns a function that takes an argument y and adds it to the value passed in the outer function, x */
         function addf(x) {
           return function (y) {
             return x + y;
           }
         }
-
     /** 
       * takes a function as an argument and returns two inner functions. The innermost function will return
       * the result of calling the function passed as an argument to the outtermost function with the middle functions argument 
@@ -70,25 +64,36 @@
             return func(first, first);
           }
         }
+    /**
+      * when passed a binary function, calling the return will swap the order of the arguments
+      */
 
         function reverse(binary) {
           return function(first, second) {
             return binary(second, first);
           }
         }
-
+    /**
+      * returns a function that will call the first function argument followed by the second function argument on the argument passed to the return
+      */
         function composeu(unary1, unary2) {
           return function(first) {
             return unary2(unary1(first));
           }
-
         }
+    /**
+      * same as the unary composition function except three arguments are passed to the returned function.  the first two will be called by the 
+      * first function argument passed to the outer function and then the second function argument will be called with the result of the first function 
+      * call as the first argument and the third argument passed to the inner function as the second
+      */
         function composeb(fB, gB) {
           return function (a, b, c) {
             return gB(fB(a, b), c);
           }
         }
-
+    /**
+      * takes a binary function and a limit as an argument.  Calling the return will return undefined once the limit passed is reached. 
+      */
         function limit(fB, limit) {
           let uses = 0;
           return function(a, b) {
@@ -99,7 +104,9 @@
             return fB(a, b);
           }
         }
-
+    /**
+      * when passed a starting value, calling the return will pass the starting value then increase by one to pass a sequence of integers
+      */
         function from(startingValue) {
           let i = 0;
           return function() {
@@ -108,7 +115,10 @@
             return currentValue;
           }
         }
-
+    /**
+      * takes a function that determines a starting value and returns a sequence of integers and adds a stopping point which when reached 
+      * will result in the a return of undefined on the returned function
+      */
         function to(fromFunc, end) {
           let currentValue;
           return function() {
@@ -119,12 +129,17 @@
               return undefined;
           }
         }
-
+    /**
+      * combines the previous two functions and returns a sequence of integers beginning with the first argument and ending prior to the second.
+      */
         function fromTo(start, end) {
           let i = from(start);
           return to(i, end);    
         }
-
+    /**
+      * takes an array and an optional generator.  if a generator is passed, it will determine the subset of array items returned according to the array position.
+      * if not, the return will include the entire array one by one in order from beginning to end.
+      */
         function element(array, gen) {
           let i;
           let generator = gen || fromTo(0, array.length);
@@ -135,7 +150,9 @@
             }
           }
         }
-
+    /**
+      * takes a generator and an array as arguments.  the return function returns the generator sequence passed and also pushes the current step into the array passed.
+      */
         function collect(gen, collectionArray) {
           return function() {
             let i = gen();
@@ -145,6 +162,34 @@
             return i;
           }
         }
+    /** 
+      * takes a generator and a filter function as arguments - returns only the steps the generator produces that resolve to true when passed through the filter function.
+      */
+        function filter(gen, filterFunction) {
+          return function() {
+            let i;
+            do {
+              i = gen();
+            } while (!filterFunction(i) && i !== undefined);
+            return i; 
+          }
+        }
+    /**
+      * returns the current value of the first generator until it returns undefined,
+      * then switches to returning the value of the second generator
+      */
+        function concat(gen1, gen2) {
+          return function() {
+            i = gen1();
+            if (i !== undefined) {
+              return i;
+            } else {
+              j = gen2();
+              return j;
+            }
+          }
+        }
+
 
       </script>
     </pre>
