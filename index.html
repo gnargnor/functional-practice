@@ -1,0 +1,142 @@
+<html>
+  <body>
+      <h1>Functional Programming Practice</h1>
+      <p> Check the source for available functions and use the console to call each function to view the results </p>
+    <pre>
+      <script>
+        
+    /** writes the argument to the DOM */
+        function log(arg) {
+          document.writeln(arg);
+        }
+        
+    /** add */
+        function add(a, b) {
+          return a + b;
+        }
+        
+    /** subtract second */
+        function sub(a, b) {
+          return a - b;
+        }
+
+    /** multiply */
+        function mul(a, b) {
+          return a * b;
+        }
+
+    /** returns a function that returns the value of the argument passed */
+        function identityf(x) {
+          return function () {
+            return x;
+          }
+        }
+
+    /** returns a function that takes an argument y and adds it to the value passed in the outer function, x */
+        function addf(x) {
+          return function (y) {
+            return x + y;
+          }
+        }
+
+    /** 
+      * takes a function as an argument and returns two inner functions. The innermost function will return
+      * the result of calling the function passed as an argument to the outtermost function with the middle functions argument 
+      * as the first argument and the innermost functions argument as the second argument 
+      */
+        function liftf(func) {
+          return function(first) {
+            return function(second) {
+              return func(first, second);
+            }
+          }
+        }
+
+    /** 
+      * takes a function and the functions first parameter as arguments and returns a function that takes the outer
+      * function's second parameter as an argument
+      */
+        function curry(func, first) {
+          return function(second){
+            return func(first, second);
+          }
+        }
+    /** 
+      * takes a function as the first argument and returns a function that calls the passed function with the argument 
+      * provided to the inner function as both parameters
+      */
+        function twice(func) {
+          return function(first){
+            return func(first, first);
+          }
+        }
+
+        function reverse(binary) {
+          return function(first, second) {
+            return binary(second, first);
+          }
+        }
+
+        function composeu(unary1, unary2) {
+          return function(first) {
+            return unary2(unary1(first));
+          }
+
+        }
+        function composeb(fB, gB) {
+          return function (a, b, c) {
+            return gB(fB(a, b), c);
+          }
+        }
+
+        function limit(fB, limit) {
+          let uses = 0;
+          return function(a, b) {
+            if (uses >= limit) {
+              return undefined;
+            }
+            uses += 1;
+            return fB(a, b);
+          }
+        }
+
+        function from(startingValue) {
+          let i = 0;
+          return function() {
+            let currentValue = startingValue + i;
+            i += 1;
+            return currentValue;
+          }
+        }
+
+        function to(fromFunc, end) {
+          let currentValue;
+          return function() {
+            currentValue = fromFunc();
+            if (currentValue < end) {
+              return currentValue;
+            }
+              return undefined;
+          }
+        }
+
+        function fromTo(start, end) {
+          let i = from(start);
+          return to(i, end);    
+        }
+
+        function element(array, gen) {
+          let i;
+          let generator = gen || fromTo(0, array.length);
+          return function() {
+            i = generator();
+            if (i !== undefined) {
+              return array[i];
+            }
+          }
+        }
+
+      </script>
+    </pre>
+  </body>
+</html>
