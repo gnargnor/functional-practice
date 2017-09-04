@@ -136,6 +136,16 @@
           }
         }
 
+        function collect(gen, collectionArray) {
+          return function() {
+            let i = gen();
+            if (i !== undefined) {
+              collectionArray.push(i);
+            }
+            return i;
+          }
+        }
+
       </script>
     </pre>
   </body>
