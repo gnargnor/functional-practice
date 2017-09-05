@@ -252,10 +252,37 @@
             }
           }
         }
-
-
-
-
+    /**
+      * takes a value and an optional source string and returns them in an object
+      */
+        function m(value, source) {
+          return {
+            value: value,
+            source: (typeof source === 'string')
+              ? source
+              : String(value)
+          }
+        }
+    /**
+      * takes two m objects produced by the function above and adds the values and returns the source of the value addition
+      */
+        function addm(m1, m2) {
+          return m(m1.value + m2.value,
+            '(' + m1.source + '+' + m2.source + ')'
+          );
+        }
+    /**
+      * takes a previously defined function and allows it to act on m objects in a way that is similar to the previous two functions
+      * this is a monad - takes a function and lifts it up so that it can take on new capabilities - such as revealing the source of the value returned
+      * --modified to allow input of m objects or naked numbers (plain?)
+      */
+        function liftm(fB, operatorString) {
+          return function(m1, m2) {
+            return m(fB(m1.value || m1, m2.value || m2),
+            '(' + (m1.source || m1) + operatorString + (m2.source || m2) + ')'
+            )
+          };
+        }
       </script>
     </pre>
   </body>
