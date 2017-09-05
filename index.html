@@ -189,6 +189,71 @@
             }
           }
         }
+    /**
+      * generates a unique string based on a prefix string which is passed to the outer function and a sequence of increasing integers
+      */
+        function gensymf(prefix) {
+          let i = 1;
+          return function() {
+            let serialString = i.toString();
+            i += 1;
+            return prefix + serialString;
+          }
+        }
+    /**
+      * takes two numbers that will be used to seed a returned fibonacci generator
+      */
+        function fibonaccif(seed1, seed2) {
+          let first = seed1;
+          let second = seed2;
+          return function() {
+            if (first === seed1) {
+              let start = first;
+              let next = first + second;
+              first = second;
+              second = next;
+              return start; 
+            } else if (first === seed2) {
+              let start2 = first;
+              let next = first + second;
+              first = second;
+              second = next;
+              return start2;
+            } else {
+              let next = first + second;
+              first = second;
+              second = next;
+              return first;
+            }
+          }
+        }
+    /**
+      * takes an integer as an argument and returns an object with methods that allow you to increase or decrease the current value of the counter
+      */
+        function counter(startingInteger) {
+          let position = startingInteger;
+          return {
+            up: () => position += 1,
+            down: () => position -= 1
+          }
+        }
+    /**
+      * takes a binary function and returns methods that allow you to invoke the function to make it usable or permanantly revoke it to make it return undefined
+      */
+        function revocable(fB) {
+          return {
+            invoke: (a, b) => {
+              if (fB !== undefined) {
+                return fB(a,b);
+              }
+            },
+            revoke: () => {
+              fB = undefined;
+            }
+          }
+        }
+
+
 
 
       </script>
