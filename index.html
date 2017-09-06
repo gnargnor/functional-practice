@@ -283,6 +283,34 @@
             )
           };
         }
+    /**
+      * takes either an array containing a function followed by two arguments that function should expect then returns the evaluation or a number that will return itself
+      * altered to accept nested arrays i.e exp([add, [add, 5, 6], [mul, 3, [add, 6, 6]]]);
+      */
+        function exp(param) {
+          return (Array.isArray(param)) 
+            ? param[0](
+                exp(param[1]),
+                exp(param[2])
+            )
+            : param;
+        }
+    /**
+      * adds together arguments passeed to invocations until it receives undefined then returns the result
+      */
+        function addg(first) {
+          function more(next) {
+            if (next === undefined) {
+              return first;
+            }
+            first += next;
+            return more;
+          }
+          if (first !== undefined) {
+            return more;
+          }
+        }
+
       </script>
     </pre>
   </body>
