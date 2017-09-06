@@ -310,6 +310,27 @@
             return more;
           }
         }
+    /**
+      * same as above, except it accepts a function as the first value passed and then applies that function to the total until it receives an undefined value
+      */
+      //mul ->
+        function liftg(func) {
+          function lift(first){
+            function more(next) {
+              if (next === undefined) {
+                return first;
+              }
+              first = func(first, next);
+              return more;
+            }
+            if (first !== undefined) {
+              return more;
+            }
+          }
+          if (typeof func === 'function') {
+            return lift;
+          }
+        }
 
       </script>
     </pre>
