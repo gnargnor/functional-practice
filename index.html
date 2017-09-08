@@ -349,6 +349,12 @@
           returnArray.push(value);
           return addToArray;
         }
+    /**
+      * takes a single argument (unary) function and returns a function that takes a callback and an argument
+      */
+        function continuize(inputFunction) {
+          return (callbackFunction, arg) => callbackFunction(inputFunction(arg));
+        }
 
       </script>
     </pre>
