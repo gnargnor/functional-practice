@@ -331,6 +331,24 @@
             return lift;
           }
         }
+    /**
+      * puts whatever the heck you pass in subsequent arguments in an increasingly long brackey fella.
+      */
+        function arrayg(value){
+          let returnArray = [];
+          function addToArray(nextValue){
+            if (nextValue === undefined) {
+              return returnArray;
+            }
+            returnArray.push(nextValue);
+            return addToArray;
+          }
+          if (value === undefined) {
+            return returnArray;
+          }
+          returnArray.push(value);
+          return addToArray;
+        }
 
       </script>
     </pre>
